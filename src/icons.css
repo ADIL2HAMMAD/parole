@@ -1,0 +1,38 @@
+.nav-link span,
+.stage-icon,
+.stage-symbol,
+.arrow,
+.check,
+.practice-icon,
+.sidebar-footer svg,
+.streak span,
+.hero h1 span,
+.sun {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary-btn,
+.text-btn,
+.back-btn,
+.secondary-btn,
+.record-btn,
+.feedback,
+.audio-result > span {
+  align-items: center;
+  gap: 7px;
+}
+
+.primary-btn,
+.text-btn,
+.back-btn,
+.secondary-btn,
+.record-btn {
+  display: inline-flex;
+}
+
+.feedback,
+.audio-result > span {
+  display: flex;
+}
