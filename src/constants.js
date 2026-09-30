@@ -1,4 +1,4 @@
-export const STORE = 'parole-francais-v2';
+export const STORE = 'parole-francais-v3';
 export const EMPTY_PROGRESS = { completed: [], answers: {}, writing: {}, activeDays: [], dailyTasks: {} };
 
 export const NAV_ITEMS = [
@@ -11,7 +11,7 @@ export const NAV_ITEMS = [
 ];
 
 export const DAILY_PRACTICES = [
-  { id: 'write', color: 'rose', title: 'Écrire quelques phrases', text: 'Décris ta journée en cinq phrases.', time: '10 min', view: 'write' },
-  { id: 'speak', color: 'sky', title: 'Parler à voix haute', text: 'Réponds à une question pendant une minute.', time: '10 min', view: 'speak' },
-  { id: 'listen', color: 'yellow', title: 'Écouter et répéter', text: 'Lis et répète trois phrases utiles.', time: '5 min' },
+  { id: 'write', color: 'rose', title: 'Écrire avec précision', text: 'Développe une idée dans un contexte professionnel.', time: '20 min', view: 'write' },
+  { id: 'speak', color: 'sky', title: 'Prendre la parole', text: 'Explique un choix ou un problème à voix haute.', time: '20 min', view: 'speak' },
+  { id: 'listen', color: 'yellow', title: 'Écouter et reformuler', text: 'Résume une vidéo ou un article avec tes propres mots.', time: '15 min' },
 ];
