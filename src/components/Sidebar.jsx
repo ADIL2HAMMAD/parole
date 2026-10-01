@@ -3,7 +3,7 @@ import { BookOpen, ChevronDown, CircleUserRound, GitBranch, History, Home, Map, 
 import { ACCOUNT_NAV_ITEMS, NAV_ITEMS } from '../constants.js';
 import { classNames } from '../lib/utils.js';
 
-export function Sidebar({ currentStage, completedCount, percentage, view, navigate, totalLessons }) {
+export function Sidebar({ collapsed, currentStage, completedCount, percentage, view, navigate, totalLessons }) {
   const [accountOpen, setAccountOpen] = useState(['account', 'history'].includes(view));
   const navIcons = { home: Home, roadmap: Map, conjugate: TextCursorInput, grammar: BookOpen, write: PenLine, speak: MessageCircle, connectors: GitBranch };
   const accountIcons = { account: UserRound, history: History };
@@ -17,7 +17,7 @@ export function Sidebar({ currentStage, completedCount, percentage, view, naviga
     <button className="brand" onClick={() => navigate('home')} aria-label="Accueil Parole"><span className="brand-mark">P</span><span>parole<span className="brand-dot">.</span></span></button>
     <div className="sidebar-label">TON PARCOURS</div>
     <nav aria-label="Navigation principale">
-      {NAV_ITEMS.map(([id, label]) => { const Icon = navIcons[id]; return <button key={id} className={classNames('nav-link', view === id && 'active')} onClick={() => navigate(id)}><span aria-hidden="true"><Icon size={18} strokeWidth={1.8} /></span>{label}</button>; })}
+      {NAV_ITEMS.map(([id, label, shortLabel]) => { const Icon = navIcons[id]; return <button key={id} className={classNames('nav-link', view === id && 'active')} onClick={() => navigate(id)} aria-label={shortLabel ? label : undefined} aria-current={view === id ? 'page' : undefined}><span className="nav-link-icon" aria-hidden="true"><Icon size={18} strokeWidth={1.8} /></span>{shortLabel ? <><span className="nav-link-label nav-label-full">{label}</span><span className="nav-link-label nav-label-short" aria-hidden="true">{shortLabel}</span></> : <span className="nav-link-label">{label}</span>}</button>; })}
       <div className={classNames('account-nav-group', isAccountArea && 'in-section')}>
         <div className={classNames('account-nav-parent', isAccountArea && 'active')}>
           <button className={classNames('nav-link', 'account-nav-link', isAccountArea && 'active')} onClick={() => navigate('account')} aria-current={view === 'account' ? 'page' : undefined}>

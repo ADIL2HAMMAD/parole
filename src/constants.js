@@ -1,7 +1,7 @@
 export const STORE = 'parole-francais-v3';
 export const EMPTY_PROGRESS = {
   completed: [], answers: {}, grammarCompleted: [], grammarAnswers: {}, writing: {}, activeDays: [], dailyTasks: {},
-  profile: { name: 'Adil', email: 'adil@example.com', goal: '45 à 60 min / jour', learningStage: null },
+  profile: { name: 'Adil', email: 'adil@example.com', learningStage: null },
 };
 
 export const NAV_ITEMS = [
@@ -10,7 +10,7 @@ export const NAV_ITEMS = [
   ['grammar', 'Grammaire'],
   ['write', 'Écrire'],
   ['speak', 'Parler'],
-  ['connectors', 'Connecteurs logiques'],
+  ['connectors', 'Connecteurs logiques', 'Connecteurs'],
 ];
 
 export const ACCOUNT_NAV_ITEMS = [
