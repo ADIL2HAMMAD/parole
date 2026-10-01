@@ -13,6 +13,8 @@ import { SpeakingView } from './views/SpeakingView.jsx';
 import { WeekView } from './views/WeekView.jsx';
 import { WritingView } from './views/WritingView.jsx';
 import { ConjugationView } from './views/ConjugationView.jsx';
+import { AccountView } from './views/AccountView.jsx';
+import { AccountHistoryView } from './views/AccountHistoryView.jsx';
 
 function App() {
   const { progress, updateProgress, completePractice } = useProgress();
@@ -53,7 +55,7 @@ function App() {
   return <div className="app-shell">
     <Sidebar currentStage={currentStage} completedCount={completedCount} percentage={percentage} totalLessons={allLessons.length} view={route.view} navigate={navigate} />
     <main className="main-content">
-      <Topbar activeDays={progress.activeDays.length} />
+      <Topbar activeDays={progress.activeDays.length} name={progress.profile.name} navigate={navigate} />
       {route.view === 'home' && <HomeView progress={progress} nextLesson={nextLesson} currentStage={currentStage} percentage={percentage} navigate={navigate} onPractice={completePractice} />}
       {route.view === 'roadmap' && <RoadmapView progress={progress} navigate={navigate} />}
       {route.view === 'conjugate' && <ConjugationView />}
@@ -62,6 +64,8 @@ function App() {
       {route.view === 'write' && <WritingView progress={progress} updateProgress={updateProgress} />}
       {route.view === 'speak' && <SpeakingView />}
       {route.view === 'week' && <WeekView progress={progress} percentage={percentage} />}
+      {route.view === 'account' && <AccountView profile={progress.profile} updateProgress={updateProgress} onSaved={() => setToast('Modifications enregistrées.')} />}
+      {route.view === 'history' && <AccountHistoryView progress={progress} navigate={navigate} />}
     </main>
     <div className={classNames('toast', toast && 'visible')} role="status">{toast}</div>
   </div>;
