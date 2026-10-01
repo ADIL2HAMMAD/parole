@@ -13,6 +13,7 @@ import { SpeakingView } from './views/SpeakingView.jsx';
 import { WeekView } from './views/WeekView.jsx';
 import { WritingView } from './views/WritingView.jsx';
 import { ConjugationView } from './views/ConjugationView.jsx';
+import { ConnectorsView } from './views/ConnectorsView.jsx';
 import { AccountView } from './views/AccountView.jsx';
 import { AccountHistoryView } from './views/AccountHistoryView.jsx';
 
@@ -23,15 +24,24 @@ function App() {
   const activeLesson = route.view === 'lesson' ? allLessons.find((lesson) => lesson.id === route.lessonId) : null;
   const completedCount = progress.completed.length;
   const percentage = Math.round((completedCount / allLessons.length) * 100);
-  const currentStage = stages.find((stage) => stage.lessons.some((lesson) => !progress.completed.includes(lesson.id))) || stages.at(-1);
-  const nextLesson = allLessons.find((lesson) => !progress.completed.includes(lesson.id)) || allLessons[0];
+  const selectedStage = stages.find((stage) => stage.id === progress.profile.learningStage);
+  const currentStage = selectedStage || stages.find((stage) => stage.lessons.some((lesson) => !progress.completed.includes(lesson.id))) || stages.at(-1);
+  const nextLesson = currentStage.lessons.find((lesson) => !progress.completed.includes(lesson.id)) || currentStage.lessons[0];
 
   useEffect(() => {
     const updateRoute = () => setRoute(readRoute());
-    window.addEventListener('hashchange', updateRoute);
-    if (!window.location.hash) window.history.replaceState(null, '', '#/home');
+    const legacyRoute = window.location.hash.match(/^#\/(.+)$/)?.[1];
+    const currentPath = window.location.pathname;
+
+    if (legacyRoute) {
+      window.history.replaceState(null, '', `/${legacyRoute}${window.location.search}`);
+    } else if (currentPath === '/' || currentPath === '') {
+      window.history.replaceState(null, '', `/home${window.location.search}`);
+    }
+
+    window.addEventListener('popstate', updateRoute);
     updateRoute();
-    return () => window.removeEventListener('hashchange', updateRoute);
+    return () => window.removeEventListener('popstate', updateRoute);
   }, []);
 
   useEffect(() => {
@@ -41,8 +51,11 @@ function App() {
   }, [toast]);
 
   const navigate = (path) => {
-    const target = `#/${path}`;
-    if (window.location.hash !== target) window.location.hash = target;
+    const target = `/${path}`;
+    if (window.location.pathname !== target) {
+      window.history.pushState(null, '', target);
+      setRoute(readRoute());
+    }
     else setRoute(readRoute());
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
@@ -57,13 +70,14 @@ function App() {
     <main className="main-content">
       <Topbar activeDays={progress.activeDays.length} name={progress.profile.name} navigate={navigate} />
       {route.view === 'home' && <HomeView progress={progress} nextLesson={nextLesson} currentStage={currentStage} percentage={percentage} navigate={navigate} onPractice={completePractice} />}
-      {route.view === 'roadmap' && <RoadmapView progress={progress} navigate={navigate} />}
+      {route.view === 'roadmap' && <RoadmapView progress={progress} updateProgress={updateProgress} navigate={navigate} />}
       {route.view === 'conjugate' && <ConjugationView />}
       {route.view === 'lesson' && activeLesson && <LessonView lesson={activeLesson} progress={progress} updateProgress={updateProgress} completeLesson={completeLesson} navigate={navigate} />}
       {route.view === 'lesson' && !activeLesson && <NotFoundView navigate={navigate} />}
-      {route.view === 'write' && <WritingView progress={progress} updateProgress={updateProgress} />}
-      {route.view === 'speak' && <SpeakingView />}
+      {route.view === 'write' && <WritingView progress={progress} updateProgress={updateProgress} learningLevel={currentStage.level} />}
+      {route.view === 'speak' && <SpeakingView learningLevel={currentStage.level} />}
       {route.view === 'week' && <WeekView progress={progress} percentage={percentage} />}
+      {route.view === 'connectors' && <ConnectorsView />}
       {route.view === 'account' && <AccountView profile={progress.profile} updateProgress={updateProgress} onSaved={() => setToast('Modifications enregistrées.')} />}
       {route.view === 'history' && <AccountHistoryView progress={progress} navigate={navigate} />}
     </main>

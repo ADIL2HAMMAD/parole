@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CheckCircle2, Circle, Lightbulb, LoaderCircle, RotateCcw, Square, WandSparkles } from 'lucide-react';
-import { speakingPrompts } from '../data.js';
+import { speakingPrompts as allSpeakingPrompts } from '../data.js';
 import { classNames } from '../lib/utils.js';
 
 function formatTime(total) {
@@ -22,7 +22,8 @@ function localCorrections(text) {
   }))).slice(0, 6);
 }
 
-export function SpeakingView() {
+export function SpeakingView({ learningLevel }) {
+  const speakingPrompts = allSpeakingPrompts.filter((item) => item.level === learningLevel);
   const [promptIndex, setPromptIndex] = useState(0);
   const prompt = speakingPrompts[promptIndex];
   const [seconds, setSeconds] = useState(0);
@@ -37,6 +38,8 @@ export function SpeakingView() {
   const streamRef = useRef(null);
   const chunksRef = useRef([]);
   const transcriberRef = useRef(null);
+
+  useEffect(() => setPromptIndex(0), [learningLevel]);
 
   useEffect(() => {
     if (!running) return undefined;
