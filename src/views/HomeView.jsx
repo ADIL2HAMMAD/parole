@@ -1,24 +1,30 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Check, Headphones, MessageSquareText, Mic, PenLine, PenTool, Presentation, Sparkles } from 'lucide-react';
-import { allLessons, stages } from '../data.js';
-import { DAILY_PRACTICES } from '../constants.js';
-import { classNames, progressLabel, todayKey } from '../lib/utils.js';
+import { ArrowRight, BookOpen, Check, Mic, PenLine, Sparkles, Flame, Target, Trophy, CalendarDays } from 'lucide-react';
+import { allLessons } from '../data.js';
+import { progressLabel, todayKey } from '../lib/utils.js';
 
-function PracticeRow({ id, color, title, text, time, done, onClick }) {
-  const icons = { write: PenLine, speak: Mic, listen: Headphones };
-  const Icon = done ? Check : icons[id];
-  return <button className="practice-row" onClick={onClick}><span className={classNames('practice-icon', color)} aria-hidden="true"><Icon size={17} strokeWidth={2} /></span><span className="practice-text"><b>{title}</b><small>{text}</small></span><span className="time">{time}</span><span className="arrow" aria-hidden="true"><ArrowRight size={17} /></span></button>;
-}
-
-export function HomeView({ progress, nextLesson, currentStage, percentage, navigate, onPractice }) {
+export function HomeView({ name, progress, nextLesson, currentStage, percentage, navigate, onPractice }) {
+  const displayName = (name || 'ami').trim();
   const completed = progress.completed.length;
-  const todayTasks = progress.dailyTasks[todayKey()] || {};
-  const stageIcons = { 'b1-solide': MessageSquareText, 'b2-pro': Presentation, 'b2-avance': PenTool, c1: Mic };
+  const completedToday = Object.values(progress.dailyTasks[todayKey()] || {}).filter(Boolean).length;
+  const weekDays = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setHours(12, 0, 0, 0);
+    date.setDate(date.getDate() - (6 - index));
+    const key = date.toISOString().slice(0, 10);
+    return { key, label: date.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', ''), active: progress.activeDays.includes(key), tasks: Object.values(progress.dailyTasks[key] || {}).filter(Boolean).length };
+  });
+  const weeklySessions = weekDays.reduce((total, day) => total + day.tasks, 0);
+  const quickLinks = [
+    { label: 'Mon parcours', detail: 'Voir les étapes', icon: Target, tone: 'peach', action: () => navigate('roadmap') },
+    { label: 'Écrire', detail: 'Un prompt guidé', icon: PenLine, tone: 'blue', action: () => navigate('write') },
+    { label: 'Parler', detail: 'Pratiquer à l’oral', icon: Mic, tone: 'mint', action: () => navigate('speak') },
+    { label: 'Ma semaine', detail: 'Organiser mes sessions', icon: CalendarDays, tone: 'lavender', action: () => navigate('week') },
+  ];
   return <div className="page home-page">
-    <section className="hero"><p className="eyebrow">MON ESPACE D’APPRENTISSAGE</p><h1>Bonjour, Adil <span aria-hidden="true"><Sparkles size={24} /></span></h1><p className="hero-copy">Aujourd’hui, avance avec intention. La régularité, les retours sur tes textes et de vraies conversations font la différence.</p><div className="hero-meta"><span>Objectif : <b>45 à 60 min / jour</b></span><span className="dot-sep">•</span><span>Cette semaine : <b>{progressLabel(completed)}</b></span></div></section>
-    <section className="continue-card"><div className="continue-art" aria-hidden="true"><div className="book-icon"><BookOpen size={31} /></div></div><div className="continue-body"><p className="eyebrow">À CONTINUER</p><h2>{nextLesson.title}</h2><p>{nextLesson.stageTitle} · {nextLesson.category}</p><div className="lesson-progress-line"><span style={{ width: `${percentage}%` }} /></div><small>{completed} sur {allLessons.length} leçons terminées</small></div><button className="primary-btn" onClick={() => navigate(`lesson/${nextLesson.id}`)}>Continuer <ArrowRight size={15} aria-hidden="true" /></button></section>
-    <div className="section-heading"><div><p className="eyebrow">TON PARCOURS</p><h2>Prochaine étape</h2></div><button className="text-btn" onClick={() => navigate('roadmap')}>Voir tout le parcours <ArrowRight size={14} aria-hidden="true" /></button></div>
-    <section className="stage-preview">{stages.map((stage) => { const stageComplete = stage.lessons.filter((lesson) => progress.completed.includes(lesson.id)).length; const StageIcon = stageIcons[stage.id]; return <button key={stage.id} className={classNames('stage-card', stage.color, stage.id === currentStage.id && 'current')} onClick={() => navigate('roadmap')}><div className="stage-top"><span className="stage-number">{stage.number}</span><span className="stage-icon" aria-hidden="true"><StageIcon size={21} strokeWidth={1.7} /></span></div><span className="pill">{stage.level} · {stage.duration}</span><h3>{stage.title}</h3><p>{stage.description}</p><div className="stage-footer"><div><span><b>{stageComplete}</b>/{stage.lessons.length} leçons</span><div className="tiny-track"><i style={{ width: `${(stageComplete / stage.lessons.length) * 100}%` }} /></div></div><span aria-hidden="true"><ArrowRight size={16} /></span></div></button>; })}</section>
-    <section className="practice-grid"><div className="section-heading compact"><div><p className="eyebrow">AUJOURD’HUI</p><h2>Une pratique complète</h2></div><button className="text-btn" onClick={() => navigate('week')}>Voir ma semaine <ArrowRight size={14} aria-hidden="true" /></button></div><div className="daily-list">{DAILY_PRACTICES.map((practice) => <PracticeRow key={practice.id} {...practice} done={Boolean(todayTasks[practice.id])} onClick={() => { onPractice(practice.id); if (practice.view) navigate(practice.view); }} />)}</div></section>
+    <section className="home-dashboard-head"><div className="hero"><p className="eyebrow">MON ESPACE D’APPRENTISSAGE</p><h1>Bonjour, {displayName} <span aria-hidden="true"><Sparkles size={24} /></span></h1><p className="hero-copy">Aujourd’hui, avance avec intention. Une petite session suffit pour garder ton élan.</p><div className="hero-meta"><span>Objectif : <b>45 à 60 min / jour</b></span><span className="dot-sep">•</span><span>Cette semaine : <b>{progressLabel(completed)}</b></span></div></div><div className="streak-card"><span className="streak-icon"><Flame size={18} /></span><div><small>SÉRIE ACTUELLE</small><strong>{progress.activeDays.length} jours</strong><span>Continue comme ça</span></div></div></section>
+    <section className="kpi-grid" aria-label="Mes indicateurs"><div className="kpi-card"><span className="kpi-icon peach"><Trophy size={17} /></span><div><small>PROGRESSION</small><strong>{percentage}%</strong><span>{completed} / {allLessons.length} leçons</span></div></div><div className="kpi-card"><span className="kpi-icon blue"><BookOpen size={17} /></span><div><small>NIVEAU ACTUEL</small><strong>{currentStage.level}</strong><span>{currentStage.title}</span></div></div><div className="kpi-card"><span className="kpi-icon mint"><Check size={17} /></span><div><small>AUJOURD’HUI</small><strong>{completedToday}/3</strong><span>pratiques terminées</span></div></div><div className="kpi-card"><span className="kpi-icon lavender"><Target size={17} /></span><div><small>PROCHAINE ÉTAPE</small><strong>{nextLesson.time}</strong><span>{nextLesson.category}</span></div></div></section>
+    <section className="activity-panel" aria-label="Activité des sept derniers jours"><div className="activity-head"><div><p className="eyebrow">TON RYTHME</p><h2>Activité cette semaine</h2></div><div className="activity-total"><strong>{weeklySessions}</strong><span>sessions</span></div></div><div className="activity-chart">{weekDays.map((day) => <div className="activity-day" key={day.key}><span className="activity-value">{day.tasks || (day.active ? 1 : 0)}</span><div className="activity-track"><i className={day.active ? 'active' : ''} style={{ height: `${Math.max(day.tasks, day.active ? 1 : 0) * 28}%` }} /></div><small>{day.label}</small></div>)}</div></section>
+    <section className="quick-access"><div className="quick-heading"><p className="eyebrow">ACCÈS RAPIDE</p><span>Choisis ta prochaine action</span></div><div className="quick-links">{quickLinks.map(({ label, detail, icon: Icon, tone, action }) => <button key={label} className={`quick-link ${tone}`} onClick={action}><span className="quick-link-icon"><Icon size={18} /></span><span><b>{label}</b><small>{detail}</small></span><ArrowRight size={15} /></button>)}</div></section>
   </div>;
 }

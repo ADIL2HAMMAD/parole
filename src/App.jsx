@@ -89,7 +89,7 @@ function App() {
     <Sidebar collapsed={sidebarCollapsed} currentStage={currentStage} completedCount={completedCount} percentage={percentage} totalLessons={allLessons.length} view={route.view} navigate={navigate} />
     <main className="main-content">
       <Topbar activeDays={progress.activeDays.length} name={user?.displayName || progress.profile.name} user={user} authConfigured={authConfigured} authLoading={authLoading} onSignIn={signIn} onSignOut={signOutUser} navigate={navigate} sidebarCollapsed={sidebarCollapsed} toggleSidebar={() => setSidebarCollapsed((collapsed) => !collapsed)} />
-      {route.view === 'home' && <HomeView progress={progress} nextLesson={nextLesson} currentStage={currentStage} percentage={percentage} navigate={navigate} onPractice={completePractice} />}
+      {route.view === 'home' && <HomeView name={progress.profile.name || user?.displayName} progress={progress} nextLesson={nextLesson} currentStage={currentStage} percentage={percentage} navigate={navigate} onPractice={completePractice} />}
       {route.view === 'roadmap' && <RoadmapView progress={progress} updateProgress={updateProgress} navigate={navigate} />}
       {route.view === 'conjugate' && <ConjugationView />}
       {route.view === 'grammar' && <GrammarView progress={progress} updateProgress={updateProgress} />}

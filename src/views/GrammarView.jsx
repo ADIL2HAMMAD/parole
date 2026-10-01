@@ -8,18 +8,15 @@ const ProgressBar = ({ value }) => <div className="grammar-progress"><span style
 const LevelStrip = ({ onOpen, activeId }) => <nav className="grammar-level-strip" aria-label="Niveaux de grammaire"><p>Choisir un niveau</p><div>{grammarLevels.map((level) => <button key={level.id} type="button" onClick={() => onOpen(level.id)} className={classNames(level.color, activeId === level.id && 'active')} aria-current={activeId === level.id ? 'page' : undefined}><span>{level.level}</span><strong>{level.title}</strong><small>{level.lessons.length} cours</small></button>)}</div></nav>;
 const buildQuizQuestions = (lesson) => [lesson.quiz, ...Array.from({ length: 4 }, (_, index) => {
     const example = lesson.examples[index] || lesson.examples[0];
-    const prompts = [
-      'Quelle phrase respecte correctement la regle etudiee ?',
-      'Quel choix montre que tu appliques bien cette regle ?',
-      'Quelle formulation correspond a la regle de la lecon ?',
-      'Quel reflexe permet de reutiliser correctement cette regle ?',
+    const distractors = [
+      'Je ne vérifie pas la construction de la phrase.',
+      'Cette phrase ne respecte pas la règle.',
     ];
-    const correctAnswer = index === 1 || index === 3 ? lesson.tip : example;
     return {
-      question: prompts[index],
-      options: [correctAnswer, 'Je traduis chaque mot sans verifier la construction.', 'Je garde la meme forme dans toutes les situations.'],
-    answer: 0,
-    explanation: 'Cette reponse applique le principe vu dans la regle.',
+      question: 'Choisis la phrase correcte :',
+      options: [example, ...distractors],
+      answer: 0,
+      explanation: `« ${example} » applique correctement la règle de cette leçon.`,
     };
   })];
 
