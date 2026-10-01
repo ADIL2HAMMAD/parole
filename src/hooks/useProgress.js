@@ -10,6 +10,8 @@ function normalizeProgress(value) {
     ...value,
     completed: Array.isArray(value.completed) ? value.completed : [],
     answers: value.answers && typeof value.answers === 'object' ? value.answers : {},
+    grammarCompleted: Array.isArray(value.grammarCompleted) ? value.grammarCompleted : [],
+    grammarAnswers: value.grammarAnswers && typeof value.grammarAnswers === 'object' ? value.grammarAnswers : {},
     writing: legacyWriting && typeof legacyWriting === 'object' ? legacyWriting : {},
     activeDays: Array.isArray(value.activeDays) ? value.activeDays.slice(-60) : [],
     dailyTasks: value.dailyTasks && typeof value.dailyTasks === 'object' ? value.dailyTasks : {},

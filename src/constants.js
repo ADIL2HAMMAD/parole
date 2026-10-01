@@ -1,13 +1,13 @@
 export const STORE = 'parole-francais-v3';
 export const EMPTY_PROGRESS = {
-  completed: [], answers: {}, writing: {}, activeDays: [], dailyTasks: {},
+  completed: [], answers: {}, grammarCompleted: [], grammarAnswers: {}, writing: {}, activeDays: [], dailyTasks: {},
   profile: { name: 'Adil', email: 'adil@example.com', goal: '45 à 60 min / jour', learningStage: null },
 };
 
 export const NAV_ITEMS = [
   ['home', 'Accueil'],
-  ['roadmap', 'Parcours'],
-  ['conjugate', 'Conjuguer'],
+  ['conjugate', 'Conjugaison'],
+  ['grammar', 'Grammaire'],
   ['write', 'Écrire'],
   ['speak', 'Parler'],
   ['connectors', 'Connecteurs logiques'],

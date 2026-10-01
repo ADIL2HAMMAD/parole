@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Save, Target, UserRound } from 'lucide-react';
+import { PageIntro } from '../components/PageIntro.jsx';
 
 export function AccountView({ profile, updateProgress, onSaved }) {
   const [form, setForm] = useState(profile);
@@ -16,7 +17,7 @@ export function AccountView({ profile, updateProgress, onSaved }) {
   };
 
   return <div className="page account-page">
-    <section className="page-intro"><p className="eyebrow">MON ESPACE</p><h1>Mon compte</h1><p>Garde tes informations et ton objectif d’apprentissage à jour.</p></section>
+    <PageIntro className="account-intro" eyebrow="MON ESPACE" title="Mon compte" description="Garde tes informations et ton objectif d’apprentissage à jour." mark={<><UserRound size={34} /><span>mon<br />parcours</span></>} />
     <div className="account-layout">
       <aside className="account-summary"><div className="account-monogram">{form.name?.trim()?.[0]?.toUpperCase() || 'A'}</div><h2>{form.name || 'Ton profil'}</h2><p>{form.email || 'Ajoute ton adresse e-mail'}</p><span><Target size={15} /> {form.goal || 'Objectif à définir'}</span></aside>
       <form className="account-form" onSubmit={save}>

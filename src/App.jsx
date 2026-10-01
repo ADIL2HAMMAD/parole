@@ -13,6 +13,7 @@ import { SpeakingView } from './views/SpeakingView.jsx';
 import { WeekView } from './views/WeekView.jsx';
 import { WritingView } from './views/WritingView.jsx';
 import { ConjugationView } from './views/ConjugationView.jsx';
+import { GrammarView } from './views/GrammarView.jsx';
 import { ConnectorsView } from './views/ConnectorsView.jsx';
 import { AccountView } from './views/AccountView.jsx';
 import { AccountHistoryView } from './views/AccountHistoryView.jsx';
@@ -72,6 +73,7 @@ function App() {
       {route.view === 'home' && <HomeView progress={progress} nextLesson={nextLesson} currentStage={currentStage} percentage={percentage} navigate={navigate} onPractice={completePractice} />}
       {route.view === 'roadmap' && <RoadmapView progress={progress} updateProgress={updateProgress} navigate={navigate} />}
       {route.view === 'conjugate' && <ConjugationView />}
+      {route.view === 'grammar' && <GrammarView progress={progress} updateProgress={updateProgress} />}
       {route.view === 'lesson' && activeLesson && <LessonView lesson={activeLesson} progress={progress} updateProgress={updateProgress} completeLesson={completeLesson} navigate={navigate} />}
       {route.view === 'lesson' && !activeLesson && <NotFoundView navigate={navigate} />}
       {route.view === 'write' && <WritingView progress={progress} updateProgress={updateProgress} learningLevel={currentStage.level} />}

@@ -1,4 +1,4 @@
-const VALID_VIEWS = new Set(['home', 'roadmap', 'conjugate', 'write', 'speak', 'week', 'connectors', 'account', 'history']);
+const VALID_VIEWS = new Set(['home', 'roadmap', 'conjugate', 'grammar', 'write', 'speak', 'week', 'connectors', 'account', 'history']);
 
 export function readRoute() {
   const route = decodeURIComponent(window.location.pathname.replace(/^\/+|\/+$/g, ''));

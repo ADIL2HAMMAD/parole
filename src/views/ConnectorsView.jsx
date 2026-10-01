@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Lightbulb } from 'lucide-react';
+import { CheckCircle2, GitBranch, Lightbulb } from 'lucide-react';
 import { classNames } from '../lib/utils.js';
+import { PageIntro } from '../components/PageIntro.jsx';
 
 const connectorLessons = [
   { id: 'add', title: 'Ajouter une idée', label: 'B1', time: '8 min', words: ['de plus', 'également', 'par ailleurs', 'aussi', 'en outre', 'qui plus est'], purpose: 'pour apporter une information qui renforce ton idée', rule: 'Utilise-les après une première information complète. « Aussi » est plus naturel au milieu d’une phrase ; les autres se placent facilement en début de phrase.', caution: 'Évite d’accumuler plusieurs connecteurs d’ajout dans une seule phrase.', examples: [{ word: 'De plus,', text: ' le délai est réaliste et l’équipe connaît déjà l’outil.' }, { word: 'Par ailleurs,', text: ' le client a validé la maquette hier.' }, { word: 'En outre,', text: ' cette solution réduit les coûts de maintenance.' }], practice: { sentence: 'Le plan est clair. ___, tous les responsables ont confirmé leur disponibilité.', answer: 'De plus', options: ['Cependant', 'De plus', 'Donc'], feedback: '« De plus » ajoute une information qui renforce la première phrase.' } },
@@ -57,7 +58,7 @@ export function ConnectorsView() {
   const practiceExamples = [active.practice, ...trainingExtensions[active.id]];
 
   return <div className="page connectors-page">
-    <section className="page-intro"><p className="eyebrow">COURS PRATIQUE · B1 À C1</p><h1>Connecteurs logiques</h1><p>Choisis le lien entre tes idées, puis utilise le connecteur qui rend ta phrase claire et naturelle.</p></section>
+    <PageIntro className="connectors-intro" eyebrow="COURS PRATIQUE · B1 À C1" title="Connecteurs logiques" description="Choisis le lien entre tes idées, puis utilise le connecteur qui rend ta phrase claire et naturelle." mark={<><GitBranch size={34} /><span>une idée,<br />un lien</span></>} />
     <div className="connectors-layout">
       <aside className="connector-lesson-list" aria-label="Leçons sur les connecteurs">{connectorLessons.map((lesson) => <button key={lesson.id} className={classNames('connector-lesson-choice', lesson.id === active.id && 'active')} onClick={() => { setActiveId(lesson.id); setAnswers({}); }}><span>{lesson.label}</span><b>{lesson.title}</b></button>)}</aside>
       <section className="connector-course" aria-live="polite"><div className="connector-course-head"><div><span className="pill lavender-pill">{active.label}</span><h2>{active.title}</h2></div><span className="connector-time">Temps estimé : {active.time}</span><p>{active.purpose}</p></div><div className="connector-expression-head"><p className="little-label">EXPRESSIONS À RETENIR</p><span>{expressions.length} expressions</span></div><div className="connector-words">{expressions.map((word) => <span key={word}>{word}</span>)}</div><article className="connector-examples"><div className="connector-examples-head"><p className="little-label">EXEMPLES EN CONTEXTE</p><span>{examples.length} exemples</span></div>{examples.map((example) => <p key={example.word}><b>{example.word}</b>{example.text}</p>)}</article><div className="connector-notes"><article><p className="little-label">MODE D’EMPLOI</p><p>{active.rule}</p></article><article className="caution"><Lightbulb size={17} aria-hidden="true" /><div><p className="little-label">POINT D’ATTENTION</p><p>{active.caution}</p></div></article></div></section>

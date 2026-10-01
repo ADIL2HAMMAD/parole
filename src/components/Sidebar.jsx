@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronDown, CircleUserRound, GitBranch, History, Home, Map, MessageCircle, PenLine, Sparkles, TextCursorInput, UserRound } from 'lucide-react';
+import { BookOpen, ChevronDown, CircleUserRound, GitBranch, History, Home, Map, MessageCircle, PenLine, Sparkles, TextCursorInput, UserRound } from 'lucide-react';
 import { ACCOUNT_NAV_ITEMS, NAV_ITEMS } from '../constants.js';
 import { classNames } from '../lib/utils.js';
 
 export function Sidebar({ currentStage, completedCount, percentage, view, navigate, totalLessons }) {
   const [accountOpen, setAccountOpen] = useState(['account', 'history'].includes(view));
-  const navIcons = { home: Home, roadmap: Map, conjugate: TextCursorInput, write: PenLine, speak: MessageCircle, connectors: GitBranch };
+  const navIcons = { home: Home, roadmap: Map, conjugate: TextCursorInput, grammar: BookOpen, write: PenLine, speak: MessageCircle, connectors: GitBranch };
   const accountIcons = { account: UserRound, history: History };
   const isAccountArea = ['account', 'history'].includes(view);
 
