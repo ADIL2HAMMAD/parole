@@ -13,6 +13,7 @@ function normalizeProgress(value) {
     writing: legacyWriting && typeof legacyWriting === 'object' ? legacyWriting : {},
     activeDays: Array.isArray(value.activeDays) ? value.activeDays.slice(-60) : [],
     dailyTasks: value.dailyTasks && typeof value.dailyTasks === 'object' ? value.dailyTasks : {},
+    profile: value.profile && typeof value.profile === 'object' ? { ...EMPTY_PROGRESS.profile, ...value.profile } : EMPTY_PROGRESS.profile,
   };
 }
 

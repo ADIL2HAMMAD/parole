@@ -1,10 +1,10 @@
 import React from 'react';
-import { CalendarDays, Home, Map, MessageCircle, PenLine, Sparkles, TextCursorInput } from 'lucide-react';
+import { CalendarDays, CircleUserRound, History, Home, Map, MessageCircle, PenLine, Sparkles, TextCursorInput } from 'lucide-react';
 import { NAV_ITEMS } from '../constants.js';
 import { classNames } from '../lib/utils.js';
 
 export function Sidebar({ currentStage, completedCount, percentage, view, navigate, totalLessons }) {
-  const navIcons = { home: Home, roadmap: Map, conjugate: TextCursorInput, write: PenLine, speak: MessageCircle, week: CalendarDays };
+  const navIcons = { home: Home, roadmap: Map, conjugate: TextCursorInput, write: PenLine, speak: MessageCircle, week: CalendarDays, account: CircleUserRound, history: History };
   return <aside className="sidebar">
     <button className="brand" onClick={() => navigate('home')} aria-label="Accueil Parole"><span className="brand-mark">P</span><span>parole<span className="brand-dot">.</span></span></button>
     <div className="sidebar-label">TON PARCOURS</div>
