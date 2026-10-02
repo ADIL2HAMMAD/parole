@@ -23,8 +23,8 @@ function localCorrections(text) {
   }))).slice(0, 6);
 }
 
-export function SpeakingView({ learningLevel }) {
-  const speakingPrompts = allSpeakingPrompts.filter((item) => item.level === learningLevel);
+export function SpeakingView({ learningLevel, prompts = allSpeakingPrompts }) {
+  const speakingPrompts = prompts.filter((item) => item.level === learningLevel);
   const [promptIndex, setPromptIndex] = useState(0);
   const prompt = speakingPrompts[promptIndex];
   const [seconds, setSeconds] = useState(0);

@@ -7,9 +7,9 @@ function LessonRow({ lesson, index, complete, onClick }) {
   return <button className="lesson-row" onClick={onClick}><span className={classNames('check', complete && 'done')} aria-label={complete ? 'Leçon terminée' : `Leçon ${index}`}>{complete ? <Check size={14} /> : index}</span><span className="lesson-row-title"><b>{lesson.title}</b><small>{lesson.category} · {lesson.time}</small></span><span className="arrow" aria-hidden="true"><ArrowRight size={17} /></span></button>;
 }
 
-export function RoadmapView({ progress, updateProgress, navigate }) {
+export function RoadmapView({ progress, updateProgress, navigate, stages: accountStages = stages }) {
   const stageIcons = { 'b1-solide': MessageSquareText, 'b2-pro': Presentation, 'b2-avance': PenTool, c1: Mic };
-  const selectedStage = stages.find((stage) => stage.id === progress.profile.learningStage) || stages.find((stage) => stage.lessons.some((lesson) => !progress.completed.includes(lesson.id))) || stages.at(-1);
+  const selectedStage = accountStages.find((stage) => stage.id === progress.profile.learningStage) || accountStages.find((stage) => stage.lessons.some((lesson) => !progress.completed.includes(lesson.id))) || accountStages.at(-1);
   const StageIcon = stageIcons[selectedStage.id];
   const chooseStage = (stageId) => updateProgress((current) => ({ ...current, profile: { ...current.profile, learningStage: stageId } }));
   return <div className="page">
@@ -17,7 +17,7 @@ export function RoadmapView({ progress, updateProgress, navigate }) {
     <section className="level-picker" aria-labelledby="level-picker-title">
       <div className="level-picker-heading"><div><p className="eyebrow">MON NIVEAU DE TRAVAIL</p><h2 id="level-picker-title">Où souhaites-tu commencer ?</h2></div><span>Choix enregistré</span></div>
       <div className="level-options" role="group" aria-label="Choisir un niveau d’apprentissage">
-        {stages.map((stage) => {
+        {accountStages.map((stage) => {
           const Icon = stageIcons[stage.id];
           const isSelected = stage.id === selectedStage.id;
           return <button key={stage.id} className={classNames('level-option', stage.color, isSelected && 'selected')} type="button" aria-pressed={isSelected} onClick={() => chooseStage(stage.id)}><span className="level-option-icon"><Icon size={18} strokeWidth={1.8} /></span><span><b>{stage.level}</b><small>{stage.title}</small></span>{isSelected && <Check size={16} aria-label="Niveau sélectionné" />}</button>;

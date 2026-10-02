@@ -23,7 +23,7 @@ function CorrectionList({ corrections, onApply }) {
   })}</div>;
 }
 
-export function WritingView({ progress, updateProgress, learningLevel }) {
+export function WritingView({ progress, updateProgress, learningLevel, prompts = writingPrompts }) {
   const levelPrompts = writingPrompts.filter((item) => item.level === learningLevel);
   const availablePrompts = levelPrompts.length ? levelPrompts : writingPrompts;
   const [promptIndex, setPromptIndex] = useState(0);

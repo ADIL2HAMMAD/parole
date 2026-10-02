@@ -1,34 +1,54 @@
-const makeLesson = (level, index, title, details = {}) => ({
+const generatedDetails = (level, title) => {
+  const topic = title.toLowerCase();
+  const levelLabel = level === 'C1' ? 'dans un contexte complexe' : level === 'B2' ? 'avec précision' : 'dans des situations professionnelles';
+
+  return {
+    description: `Maîtriser ${topic} ${levelLabel}.`,
+    explanation: `${title} permet de construire des phrases plus précises et d’adapter ton expression au contexte. Observe la structure, puis réutilise-la dans des exemples personnels.`,
+    rule: `Pour utiliser ${topic}, repère d’abord sa construction, puis vérifie l’accord, la place des mots et le temps verbal selon le contexte.`,
+    examples: [
+      `Nous utilisons ${topic} pour expliquer notre décision.`,
+      `Cette construction rend le message plus clair.`,
+      `Je peux réutiliser ${topic} dans un e-mail professionnel.`,
+    ],
+    caution: `Ne choisis pas ${topic} uniquement par traduction : vérifie toujours la structure complète de la phrase.`,
+    tip: `Écris trois phrases avec ${topic} : une phrase personnelle, une phrase professionnelle et une phrase qui exprime une nuance.`,
+    quiz: {
+      question: `Quel réflexe aide à maîtriser « ${title} » ?`,
+      options: ['Observer la structure dans une phrase complète', 'Traduire chaque mot isolément', 'Éviter de vérifier le contexte'],
+      answer: 0,
+      explanation: `Une phrase complète permet de vérifier le sens, la construction et l’emploi de ${topic}.`,
+    },
+  };
+};
+
+const makeLesson = (level, index, title, details = {}) => {
+  const generated = generatedDetails(level, title);
+  const content = { ...generated, ...details };
+
+  return {
   id: `grammar-${level.toLowerCase()}-${String(index).padStart(2, '0')}`,
   level,
   number: index,
   title,
-  description: details.description || `Comprendre et employer ${title.toLowerCase()} dans des phrases utiles.`,
-  duration: details.duration || '12 min',
-  explanation: details.explanation || `Cette leçon te donne un repère clair pour utiliser ${title.toLowerCase()} avec plus d’aisance, à l’oral comme à l’écrit.`,
-  rule: details.rule || `Repère la construction dans une phrase complète, puis réutilise-la dans un contexte qui t’est familier.`,
-  examples: details.examples || [
-    `Je vérifie cette règle avant d’envoyer mon e-mail.`,
-    `L’équipe utilise cette construction pendant la réunion.`,
-    `Nous pouvons l’appliquer dans notre prochain projet.`,
-  ],
-  caution: details.caution || 'Ne traduis pas mot à mot : observe la place des mots et la construction française.',
-  tip: details.tip || 'Lis la phrase à voix haute, puis crée une phrase qui parle de ton quotidien ou de ton travail.',
-  quiz: details.quiz || {
-    question: `Quel réflexe aide à maîtriser « ${title} » ?`,
-    options: ['Apprendre une phrase complète', 'Traduire chaque mot isolément', 'Éviter de pratiquer'],
-    answer: 0,
-    explanation: 'Une phrase complète montre la structure, le sens et le contexte d’emploi.',
-  },
-});
+  description: content.description,
+  duration: content.duration || '12 min',
+  explanation: content.explanation,
+  rule: content.rule,
+  examples: content.examples,
+  caution: content.caution,
+  tip: content.tip,
+  quiz: content.quiz,
+  };
+};
 
 const a1Details = [
   { description: 'Identifier qui fait l’action.', rule: 'Les pronoms sujets remplacent le nom : je, tu, il/elle/on, nous, vous, ils/elles. Le verbe s’accorde avec eux.', examples: ['Je prépare la démo.', 'Nous travaillons sur le projet.', 'Elles arrivent à neuf heures.'], caution: '« On » se conjugue comme « il », même quand il signifie « nous ».', tip: 'Dans une présentation, commence par « Je vais… » ou « Nous allons… ».', quiz: { question: '___ préparons le compte rendu.', options: ['Nous', 'Vous', 'Ils'], answer: 0, explanation: 'Le verbe « préparons » correspond au pronom « nous ». ' } },
   { description: 'Utiliser quatre verbes indispensables au présent.', rule: 'Être : je suis ; avoir : j’ai ; aller : je vais ; faire : je fais. Apprends-les comme des blocs fréquents.', examples: ['Je suis disponible cet après-midi.', 'Nous avons une réunion.', 'Vous allez tester la version.', 'Elle fait une présentation.'], caution: 'On ne dit pas « je suis 30 ans » : pour l’âge, utilise « j’ai 30 ans ».', tip: 'Écris quatre phrases sur ta journée avec être, avoir, aller et faire.', quiz: { question: 'Nous ___ une réunion à 10 h.', options: ['avons', 'sommes', 'faites'], answer: 0, explanation: 'Avec une réunion, on utilise le verbe « avoir » : nous avons.' } },
   { description: 'Conjuguer les verbes réguliers au présent.', rule: 'Pour les verbes en -er, -ir et -re, enlève la terminaison de l’infinitif puis ajoute les terminaisons du présent.', examples: ['Je code une page.', 'Nous finissons le test.', 'Ils répondent au client.'], caution: 'Avec « nous », les verbes en -er finissent souvent par -ons : nous travaillons.', tip: 'Garde un modèle par groupe : parler, finir, attendre.', quiz: { question: 'Tu ___ au client.', options: ['réponds', 'répond', 'répondez'], answer: 0, explanation: 'Avec « tu », répondre se conjugue « tu réponds ». ' } },
   { description: 'Présenter un nom avec le bon article.', rule: 'Utilise le/la/les pour parler de quelque chose d’identifié ou en général ; un/une/des pour introduire une chose non identifiée.', examples: ['Le projet commence demain.', 'Une collègue arrive.', 'Les fichiers sont prêts.'], caution: 'Devant une voyelle, le et la deviennent l’ : l’application, l’équipe.', tip: 'Dans un e-mail, introduis « un problème », puis reparle du « problème ».', quiz: { question: '___ application est prête.', options: ['La', 'L’', 'Une'], answer: 1, explanation: '« Application » commence par une voyelle : on écrit « l’application ». ' } },
-  { description: 'Accorder les noms et les déterminants.', rule: 'Le genre (masculin/féminin) et le nombre (singulier/pluriel) se retrouvent souvent dans l’article et l’adjectif.', examples: ['Un nouveau message.', 'Une nouvelle version.', 'Des messages importants.'], caution: 'Le genre d’un mot ne dépend pas toujours de la personne ou de l’objet réel.', tip: 'Apprends chaque nouveau nom avec son article : « la réunion », « le délai ».', quiz: { question: 'Choisis la forme correcte : ___ réunions.', options: ['Les', 'La', 'Le'], answer: 0, explanation: '« Réunions » est pluriel : on utilise « les ». ' } },
-  { description: 'Faire correspondre l’adjectif au nom.', rule: 'Un adjectif s’accorde généralement avec le nom : un projet clair, une consigne claire, des projets clairs.', examples: ['Le besoin est précis.', 'La demande est précise.', 'Les consignes sont précises.'], caution: 'Certains adjectifs changent beaucoup : beau/belle, nouveau/nouvelle.', tip: 'Relis les groupes nom + adjectif avant d’envoyer un message.', quiz: { question: 'Une solution ___.', options: ['simple', 'simples', 'simplent'], answer: 0, explanation: 'Au féminin singulier, « simple » ne change pas ici.' } },
+  { description: 'Accorder les noms et les déterminants.', rule: 'Le genre (masculin/féminin) et le nombre (singulier/pluriel) se retrouvent souvent dans l’article et l’adjectif.', examples: ['Un nouveau message.', 'Une nouvelle version.', 'Des messages importants.'], caution: 'Le genre d’un mot ne dépend pas toujours de la personne ou de l’objet réel.', tip: 'Apprends chaque nouveau nom avec son article : « la réunion », « le délai ».', quiz: { question: '___ réunions sont prévues demain.', options: ['Les', 'La', 'Le'], answer: 0, explanation: '« Réunions » est pluriel : on utilise « les ». ' } },
+  { description: 'Faire correspondre l’adjectif au nom.', rule: 'Un adjectif s’accorde généralement avec le nom : un projet clair, une consigne claire, des projets clairs.', examples: ['Le besoin est précis.', 'La demande est précise.', 'Les consignes sont précises.'], caution: 'Certains adjectifs changent beaucoup : beau/belle, nouveau/nouvelle.', tip: 'Relis les groupes nom + adjectif avant d’envoyer un message.', quiz: { question: 'La proposition présente une solution ___.', options: ['simple', 'simples', 'simplent'], answer: 0, explanation: 'Au féminin singulier, « simple » ne change pas ici.' } },
   { description: 'Dire non, ne plus faire ou ne jamais faire.', rule: 'La négation encadre le verbe : ne… pas, ne… jamais, ne… plus. Devant une voyelle, ne devient n’.', examples: ['Je ne comprends pas.', 'Nous ne travaillons jamais le dimanche.', 'Elle n’utilise plus cette version.'], caution: 'À l’oral, « ne » disparaît souvent, mais garde-le dans un écrit soigné.', tip: 'Prépare une phrase négative utile : « Je ne suis pas disponible vendredi. »', quiz: { question: 'Nous ___ utilisons plus ce fichier.', options: ['ne', 'pas', 'jamais'], answer: 0, explanation: 'La négation complète est « nous ne… utilisons plus ». ' } },
   { description: 'Poser des questions simples et précises.', rule: 'Tu peux utiliser l’intonation, « est-ce que », l’inversion ou un mot interrogatif : où, quand, pourquoi, comment.', examples: ['Est-ce que la réunion commence à neuf heures ?', 'Où se trouve le document ?', 'Pourquoi le test échoue-t-il ?'], caution: 'Après un mot interrogatif, n’ajoute pas toujours « est-ce que » : « Où vas-tu ? » est correct.', tip: 'En réunion, commence par « Est-ce que vous pouvez préciser… ? »', quiz: { question: '___ est-ce que tu envoies le rapport ?', options: ['Quand', 'Qui', 'Combien'], answer: 0, explanation: '« Quand » demande un moment ou une date.' } },
   { description: 'Exprimer l’appartenance.', rule: 'Mon/ton/son, notre/votre/leur s’accordent avec l’objet possédé, pas avec la personne qui possède.', examples: ['Mon équipe prépare la démo.', 'Sa collègue arrive.', 'Leurs documents sont prêts.'], caution: 'Devant un nom féminin qui commence par une voyelle, on dit « mon amie » pour faciliter la prononciation.', tip: 'Présente ton travail : « Mon projet », « notre client », « vos retours ».', quiz: { question: 'Nous présentons ___ projet.', options: ['notre', 'nos', 'votre'], answer: 0, explanation: '« Projet » est singulier : « notre projet ». ' } },
@@ -47,7 +67,7 @@ const a2Details = [
   ['Futur simple', 'Parler de projets, prévisions et promesses.', 'Le futur simple utilise l’infinitif + -ai, -as, -a, -ons, -ez, -ont.', ['Je terminerai demain.', 'Nous répondrons au client.', 'Le projet sera prêt lundi.'], 'Les verbes être et avoir changent de radical : je serai, j’aurai.', 'Dans un e-mail, utilise-le pour annoncer une échéance claire.', 'Je vous ___ le document demain.', ['enverrai', 'envoie', 'envoyais'], 0, 'Une action future : « j’enverrai ».'],
   ['Pronoms compléments directs', 'Éviter de répéter un nom complément direct.', 'Le, la, les remplacent une personne ou une chose sans préposition : Je vois le fichier → Je le vois.', ['Je le partage.', 'Nous la testons.', 'Je les envoie.'], 'Le pronom se place avant le verbe conjugué.', 'Dans une conversation, remplace une répétition par le ou la.', 'La maquette ? Je ___ valide.', ['la', 'lui', 'y'], 0, '« La maquette » est un complément direct féminin : « je la valide ».'],
   ['Pronoms compléments indirects', 'Remplacer un complément introduit par à.', 'Lui et leur remplacent une personne après à : Je parle à Léa → Je lui parle.', ['Je lui réponds.', 'Nous leur écrivons.', 'Le chef leur téléphone.'], 'Ne dis pas « je le parle » : parler à quelqu’un demande « lui ».', 'Dans un e-mail, pense à « je lui répondrai demain ».', 'Je téléphone à mes collègues : je ___ téléphone.', ['leur', 'les', 'en'], 0, 'À mes collègues devient « leur ».'],
-  ['Pronoms y et en', 'Remplacer un lieu, une chose avec à ou de, et une quantité.', 'Y remplace souvent à + chose ou un lieu ; en remplace de + chose ou une quantité.', ['J’y pense.', 'Nous en avons besoin.', 'Tu en veux deux ?'], 'Y ne remplace pas normalement une personne.', 'Mémorise des blocs : penser à → y penser ; avoir besoin de → en avoir besoin.', 'Ce projet ? J’___ pense.', ['y', 'en', 'le'], 0, 'Penser à quelque chose devient « y penser ».'],
+  ['Pronoms y et en', 'Remplacer un lieu, une chose avec à ou de, et une quantité.', 'Y remplace souvent à + chose ou un lieu ; en remplace de + chose ou une quantité.', ['J’y pense.', 'Nous en avons besoin.', 'Tu en veux deux ?'], 'Y ne remplace pas normalement une personne.', 'Mémorise des blocs : penser à → y penser ; avoir besoin de → en avoir besoin.', 'Je pense souvent à ce projet et j’___ pense pendant la réunion.', ['y', 'en', 'le'], 0, 'Penser à quelque chose devient « y penser ».'],
   ['Comparatif et superlatif', 'Comparer des éléments et exprimer un maximum.', 'Plus/moins/aussi + adjectif + que compare ; le plus/la plus exprime le superlatif.', ['Cette option est plus simple que l’autre.', 'Le test est moins long.', 'C’est la version la plus stable.'], 'Avec un nom, utilise plus de/moins de : plus de temps.', 'Compare deux solutions dans une réunion pour justifier un choix.', 'Cette solution est ___ rapide que l’autre.', ['plus', 'le plus', 'très'], 0, 'Une comparaison à deux utilise « plus … que ».'],
   ['Adverbes fréquents', 'Préciser quand, comment ou à quel degré une action se fait.', 'Les adverbes comme souvent, déjà, encore, toujours et vraiment modifient le verbe ou l’adjectif.', ['Je réponds souvent le matin.', 'Le test est déjà terminé.', 'Cette explication est vraiment claire.'], 'La position peut changer le sens : « il a déjà envoyé ».', 'Ajoute un adverbe pour donner une information plus précise.', 'Nous avons ___ terminé.', ['déjà', 'très', 'beaucoup de'], 0, '« Déjà » précise qu’une action est terminée avant le moment attendu.'],
   ['Connecteurs simples', 'Relier des idées de manière logique.', 'Parce que donne une cause ; donc une conséquence ; mais une opposition ; puis une suite.', ['Le test échoue parce que la donnée manque.', 'La donnée manque, donc le test échoue.', 'Le délai est court, mais le plan est clair.'], 'N’utilise pas « parce que » après « donc » dans la même relation.', 'Choisis un connecteur plutôt que de faire des phrases trop courtes.', 'Le serveur est indisponible, ___ nous attendons.', ['donc', 'parce que', 'mais'], 0, 'La conséquence est introduite par « donc ».'],

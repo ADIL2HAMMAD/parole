@@ -21,7 +21,7 @@ export const stages = [
   },
   {
     id: 'b2-avance', number: '03', level: 'B2 avancé', title: 'Gagner en précision', color: 'lavender', icon: '✎', duration: '2 à 4 mois',
-    description: 'Affines ta grammaire, ton registre et ta capacité à reformuler naturellement.',
+    description: 'Affine ta grammaire, ton registre et ta capacité à reformuler naturellement.',
     lessons: [
       { id: 'b2-relatifs', title: 'Préciser avec les pronoms relatifs', category: 'Grammaire', time: '17 min', explanation: 'Dont, lequel, auquel et leurs variantes évitent les répétitions et rendent les phrases plus précises.', examples: ['Voici le sujet dont nous avons parlé.', 'C’est la fonctionnalité à laquelle les utilisateurs tiennent.', 'Le service sur lequel nous comptons est maintenu.'], tip: 'Utilise « dont » lorsque le verbe se construit avec « de » : parler de, avoir besoin de, dépendre de.', question: 'Le projet ___ je suis responsable est prioritaire.', choices: ['dont', 'auquel', 'lequel'], answer: 0 },
       { id: 'b2-accords', title: 'Maîtriser les accords difficiles', category: 'Grammaire', time: '18 min', explanation: 'Le participe passé s’accorde selon l’auxiliaire et la place du complément. Relis les phrases qui contiennent « que », « les » ou « leur ».', examples: ['Les corrections que j’ai apportées sont en ligne.', 'Elle est arrivée avant la réunion.', 'Nous avons envoyé les documents.'], tip: 'Avec avoir, cherche le complément direct : s’il est placé avant le verbe, le participe s’accorde.', question: 'Les tâches que nous avons ___ sont terminées.', choices: ['terminé', 'terminées', 'terminer'], answer: 1 },

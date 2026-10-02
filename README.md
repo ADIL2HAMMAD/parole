@@ -32,3 +32,16 @@ Ouvrir l'adresse indiquée par Vite. Pour produire une version statique : `npm r
 - programme hebdomadaire, progression et série de jours actifs.
 
 La sauvegarde étant locale, effacer les données du navigateur réinitialise la progression. L'enregistrement nécessite l'autorisation du microphone et un navigateur compatible avec `MediaRecorder` (sur `localhost` ou HTTPS).
+
+## Veille grammaticale hebdomadaire
+
+Pour les comptes connectés, une fonction Firebase lit chaque lundi à 08:15 (heure de Paris) les titres des « Questions de langue » de l’Académie française. Elle publie uniquement cette veille et son lien source dans `content/curriculum`; le navigateur n’effectue aucun scraping et ne peut jamais écrire ce document. Le dernier résultat valide reste affiché si le site source est indisponible.
+
+Installez les dépendances serveur, puis déployez les règles et la fonction :
+
+```bash
+npm --prefix functions install
+npx firebase-tools deploy --only functions,firestore:rules
+```
+
+Les leçons et quiz ne sont pas réécrits automatiquement : une source externe est utilisée pour signaler des thèmes à intégrer après validation pédagogique, afin de préserver la qualité des corrections.
